@@ -13,6 +13,17 @@ def uniqueStrChar(strings):
     return True
 
 
+# What if you did not need to use additional dat6a structures
+
+def uniqueChar(data):
+    for char in data:
+        if data.count(char) > 1:
+            return False
+    return True
+
+
+print(uniqueChar("lodi"))
+
 print(uniqueStrChar('amadi'))
 
 """Write a method to replace all spaces in a string with '%20'. You may assume that the string
@@ -151,7 +162,7 @@ def compressString(chars):
     return result
 
 
-print(compressString('aabcccccaaab'))
+print(compressString('aabcccccaaa'))
 
 """Given an image represented by an NxN matrix, where each pixel in the image is 4
 bytes, write a method to rotate the image by 90 degrees. Can you do this in place?
@@ -207,4 +218,52 @@ print(zeroMatrix([
     [7, 8, 9]
 ]))
 
-print([False] * 3)
+""" 
+Determine if a strings s1 is a rotation of another string s2, by calling only a function
+Keyword arguments:
+argument -- s1, s2
+Return: Boolean
+"""
+
+
+class StringRotation:
+    def __init__(self):
+        pass
+
+    def isSubstring(self, s1, s2):
+        return s1 in s2
+
+    def rotation(self, s1, s2):
+        if s1 is None or s2 is None:
+            return False
+
+        s1 = s1.replace(' ', '')
+        s2 = s2.replace(' ', '')
+        if len(s1) != len(s2):
+            return False
+
+        return self.isSubstring(s1, s2+s2)
+
+
+test = StringRotation()
+
+print(test.rotation('waterbottle', 'erbottlewat'))
+
+
+"""
+Implement a reverse a string (a list of characters), in place
+
+constraints -> can't reverse an empty string\n 
+            -> strings are ascii only \n 
+            -> return a reverse string in place\n
+"""
+
+
+def reverseString(data):
+    if data is None:
+        return None
+
+    return data[::-1]
+
+
+print(reverseString('john legend'))
