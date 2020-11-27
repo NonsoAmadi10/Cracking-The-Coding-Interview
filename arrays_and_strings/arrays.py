@@ -1,6 +1,9 @@
 # Implement an algorithm to determine if a string has unique characters
 
 
+from functools import reduce
+
+
 def uniqueStrChar(strings):
     unique_set = set()
 
@@ -218,7 +221,7 @@ print(zeroMatrix([
     [7, 8, 9]
 ]))
 
-""" 
+"""
 Determine if a strings s1 is a rotation of another string s2, by calling only a function
 Keyword arguments:
 argument -- s1, s2
@@ -253,8 +256,8 @@ print(test.rotation('waterbottle', 'erbottlewat'))
 """
 Implement a reverse a string (a list of characters), in place
 
-constraints -> can't reverse an empty string\n 
-            -> strings are ascii only \n 
+constraints -> can't reverse an empty string\n
+            -> strings are ascii only \n
             -> return a reverse string in place\n
 """
 
@@ -267,3 +270,183 @@ def reverseString(data):
 
 
 print(reverseString('john legend'))
+
+"""
+    Find the single different char between two strings
+
+        ex: abbbccddde, abbbccddd -> e
+            abb , bb -> a
+
+    Keyword arguments:
+    s1 -- First string
+    s2 -- second string
+    Return: return the difference
+    """
+
+
+def find_diff(s1, s2):
+    if s1 is None or s2 is None:
+        return None
+    seen = {}
+    diff = []
+    for char in s1:
+        if char in seen:
+            seen[char] += 1
+        else:
+            seen[char] = 1
+
+    for char in s2:
+        if char in seen:
+            seen[char] -= 1
+        else:
+            seen[char] = 1
+
+    for key, values in seen.items():
+        if values < 0:
+            diff.append(key)
+        if values >= 1:
+            diff.append(key)
+    return sorted(diff)
+
+
+print(find_diff('aab', 'ab'))
+
+
+def fizzBuzz(num):
+    """
+    constriants -> Return None on empty input or input less than  one
+                -> Print fizz for numbers divisible by 3 
+                -> Print buzz for numbers divisible by 5 
+                -> Print fizzbuzz for numbers divisible by 3 and 5
+                -> Print the number if the above cases are not covered
+    """
+    if num is None or num < 1:
+        return ValueError('Number cannot be less than one')
+
+    for i in range(1, num+1):
+        if i % 3 == 0:
+            print('fizz')
+        if i % 5 == 0:
+            print('buzz')
+        if i % 15 == 0:
+            print('fizzbuzz')
+
+        print(i)
+
+
+print(fizzBuzz(100))
+
+
+def non_repeating_chars(data):
+    """
+    constraints -> Returns Value error on empty list 
+                -> returns value error on string length less than 2
+                -> returns only first non-repeating character 
+    """
+
+    if len(data) < 1:
+        return ValueError('data must not be less than 1')
+
+    """
+    Algorithm -> loop through each char in the data
+              -> save each char and char count in a dictionary
+              -> loop through each keys and values , append values =1 to a list, return the first index of the list
+    """
+
+    dict_ = {}
+    my_list = []
+
+    for char in data:
+        if char in dict_:
+            dict_[char] += 1
+        else:
+            dict_[char] = 1
+
+    for key, values in dict_.items():
+        if values == 1:
+            my_list.append(key)
+
+    return my_list[0]
+
+
+print(non_repeating_chars('chhuuul'))
+
+
+def remove_char(data, char):
+    """
+    constraints --> Empty data should return None
+                --> data length must greater than 1
+                --> Char must be in the list
+                --> Remove characters even with duplicates
+    """
+    if data is None:
+        return
+
+    result = ''
+
+    if len(data) <= 1:
+        return ValueError('length of data must be greater than 1')
+
+    if char in data:
+        for letter in char:
+            result = data.replace(letter, '', data.count(letter))
+            data = result
+        return result
+    else:
+        return data
+
+
+print(remove_char('calabar', 'ar'))
+
+
+def int_to_string(x):
+    is_negative = False
+    if x < 0:
+        x, is_negative = -x, True
+    s = []
+    while True:
+        s.append(chr(ord('0') + x % 10))
+        x //= 10
+        if x == 0:
+            break
+    # Adds the negative sign back if is_negative
+    return ('-'if is_negative else "") + "".join(reversed(s))
+
+
+print(int_to_string(12))
+
+
+def two_nums(nums, target):
+    if nums is None or target is None:
+        raise TypeError('nums or target cannot be None')
+
+    if not nums:
+        raise ValueError(' nums cannot be empty')
+    cache = {}
+
+    for index, num in enumerate(nums):
+        cache_target = target - num
+
+        if num in cache:
+            return [cache[num], index]
+        else:
+            cache[cache_target] = index
+    return None
+
+
+print(two_nums([1, 3, 2, -7, 5], 7))
+
+
+def buy_and_se11_stock_once(prices):
+    min_price_so_far, max_profit = float('inf'), 0.0
+
+    for price in prices:
+        max_profit_se1l_today = price - min_price_so_far
+
+        min_price_so_far = min(min_price_so_far, price)
+        max_profit = max(max_profit, max_profit_se1l_today)
+    return max_profit
+
+
+print(buy_and_se11_stock_once(
+    [310, 310, 275, 275, 260, 260, 230, 230]))
